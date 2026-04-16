@@ -46,7 +46,7 @@ into your own, following the process we've discussed in previous assignments, th
 
 ### References
 
-[P01_Source1.pdf]
+[P01_Source1.pdf](image/P01_Source1.pdf)
 
  This is an ai chat I used to help me build my classes and to build ideas about how I should build my classes. This
 helped me to realize what I could do so that I knew what I could put in the classes.

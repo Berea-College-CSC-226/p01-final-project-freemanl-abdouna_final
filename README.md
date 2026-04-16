@@ -21,17 +21,17 @@
 
 ️**CRC Card(s)**:
 
-  [BossCRC.png]
+  [BossCRC.png](image/BossCRC.png)
 
-  [EnemyTurtCRC.png]
+  [EnemyTurtCRC.png](image/EnemyTurtCRC.png)
 
-  [MazeCRC.png]
+  [MazeCRC.png](image/MazeCRC.png)
 
-  [GameTurtCRC.png]
+  [GameTurtCRC.png](image/GameTurtCRC.png)
 
-  [PlayerTurtCRC.png]
+  [PlayerTurtCRC.png](image/PlayerTurtCRC.png)
 
-  [PlayerMazeCRC.png]
+  [PlayerMazeCRC.png](image/PlayerMazeCRC.png)
 
 ️**Branches**: This project will **require** effective use of git. 
 

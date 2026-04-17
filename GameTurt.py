@@ -1,3 +1,4 @@
+import turtle
 import turtle as tr
 import time
 
@@ -42,5 +43,14 @@ class GameTurt():
         d.hideturtle()
         d.goto(252,230)
         d.write("Level 1", align= 'center', font=('Arial',30,'normal'))
+
+class RunningTurt():
+    def __init__(self,color):
+        self.turtle = tr.Turtle
+        self.alive = True
+        self.shape = self.turtle.shape("turtle")
+        self.color = color
+        self.turtle.color(color)
+
 
 screen = GameTurt()

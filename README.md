@@ -55,13 +55,18 @@ helped me to realize what I could do so that I knew what I could put in the clas
 
 ## Milestone 2: Code Setup and Issue Queue
 
-❗Most importantly, keep your issue queue up to date, and focus on your code. 🙃
+Most importantly, keep your issue queue up to date, and focus on your code. 🙃
 
-❗Reflect on what you’ve done so far. How’s it going? Are you feeling behind/ahead? What are you worried about? 
+Reflect on what you’ve done so far. How’s it going? Are you feeling behind/ahead? What are you worried about? 
 What has surprised you so far? Describe your general feelings. Be honest with yourself; this section is for you, not me.
 
 ```
-    **Replace this text with your reflection
+    Leroy: So far my project is going well I updated my issue cue with the issues I am currently working through. I think
+    I have made ample progress to make sure I have the project done on time to my specifications. As of right now, I am
+    struggling a little bit with figuring out how to get everything to work all at the same time and I am also struggling
+    on how to work out the collisions of the turtles to keep track of the score. What surprised me the most is my ability
+    to have a higher understanding of what I'm coding and how to think through my problems with less aid or training 
+    wheels.
 ```
 
 ---

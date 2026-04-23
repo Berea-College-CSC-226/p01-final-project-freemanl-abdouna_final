@@ -67,6 +67,12 @@ What has surprised you so far? Describe your general feelings. Be honest with yo
     on how to work out the collisions of the turtles to keep track of the score. What surprised me the most is my ability
     to have a higher understanding of what I'm coding and how to think through my problems with less aid or training 
     wheels.
+    
+    Ahmed: I would say the project is going well. We've put all of the relevant issues for the project into the issue queue
+   personally im feeling a little behind purely because of the second subtask. i feel like we shouldnt spend up too much
+   of our time working on the first one because i think im gonna need time to figure out how to tackle the second problem.
+   im having trouble trying to get the turtles to not collide with one another when they move around the map. so its a
+   little surprising that the first level of the game was a bit harder to tackle than i thought.
 ```
 
 ---

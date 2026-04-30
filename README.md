@@ -51,6 +51,12 @@ into your own, following the process we've discussed in previous assignments, th
  This is an ai chat I used to help me build my classes and to build ideas about how I should build my classes. This
 helped me to realize what I could do so that I knew what I could put in the classes.
 
+chat i used to help me fix the timer not working with the scrambling turtles
+https://claude.ai/share/b37b0db8-563b-43e5-aa96-dc24f6b17732
+
+needed help trying to figure out how to keep turtles from colliding with each other
+https://claude.ai/share/590f2de2-b1b3-4bc8-ba88-cee913f53522
+
 ---
 
 ## Milestone 2: Code Setup and Issue Queue
@@ -81,14 +87,16 @@ What has surprised you so far? Describe your general feelings. Be honest with yo
 
 ❗Indicate what percentage of the project you have left to complete and how confident you feel. 
 
-❗️**Completion Percentage**: `0 - 100%`
+❗️**Completion Percentage**: `50%`
 
 ❗️**Confidence**: Describe how confident you feel about completing this project, and why. Then, describe some 
   strategies you can employ to increase the likelihood that you'll be successful in completing this project 
   before the deadline.
 
 ```
-    **Replace this with your reflection
+ Ahmed: i feel pretty confident we can finish this project in time
+ we had a few setbacks due to our other classes but we have a free weekend
+ to work on this. we're gonna start working together on the project instead of splitting up
 ```
 
 ---

@@ -73,18 +73,16 @@ What has surprised you so far? Describe your general feelings. Be honest with yo
 
 ## Milestone 3: Virtual Check-In
 
- Indicate what percentage of the project you have left to complete and how confident you feel. 
+❗Indicate what percentage of the project you have left to complete and how confident you feel. 
 
-️ **Completion Percentage**: `50%`
+❗️**Completion Percentage**: `0 - 100%`
 
- ️**Confidence**: Describe how confident you feel about completing this project, and why. Then, describe some 
+❗️**Confidence**: Describe how confident you feel about completing this project, and why. Then, describe some 
   strategies you can employ to increase the likelihood that you'll be successful in completing this project 
   before the deadline.
 
 ```
-    I feel confident that I can complete the project on time becuase I'm finishing a lot of my other classes so I feel
-    that my productivity in this class will speed up. A strategy that I can employ to increase the likelihood of me 
-    completing is implementing a schedeule of what I need done by the final deadline.
+    **Replace this with your reflection
 ```
 
 ---

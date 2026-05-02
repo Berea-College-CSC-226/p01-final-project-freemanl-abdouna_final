@@ -13,10 +13,16 @@ class GameTurt():
         self._time_turtle = None
         self.setup_hud()
 
+
     def setup_hud(self):
+        self.setup_screen()
         self._setup_timer()
         self._setup_score()
         self._setup_level()
+
+
+    def setup_screen(self):
+        self.screen.bgpic("image/proj_bg.gif")
 
     def _setup_timer(self):
         self._time_turtle = tr.Turtle()
@@ -56,6 +62,9 @@ class GameTurt():
         """Redraws the score display."""
         self._score_turtle.clear()
         self._score_turtle.write(f"Score: {self.mini}/{self.maxi}", align='center', font=('Arial', 30, 'normal'))
+        if self.mini == self.maxi:
+            self.win_game()
+
 
     def game_over(self):
         tr.clearscreen()
@@ -64,7 +73,17 @@ class GameTurt():
         gmov.penup()
         gmov.goto(0, 0)
         gmov.write("GAME OVER", align='center', font=('Arial', 40, 'bold'))
-
+        time.sleep(3)
+        self.screen.bye()
+    def win_game(self):
+        tr.clearscreen()
+        wgm = tr.Turtle()
+        wgm.hideturtle()
+        wgm.penup()
+        wgm.goto(0,0)
+        wgm.write("YOU WINN!!!", align= 'center', font=('Arial', 40, 'bold'))
+        time.sleep(3)
+        self.screen.bye()
 
 class PlayerTurt():
     """
@@ -79,11 +98,11 @@ class PlayerTurt():
         self.hud = hud
         self.turtle = tr.Turtle()
         t = self.turtle
-        t.shape("turtle")
+        t.shape("circle")
         t.shapesize(1.5)
         t.color("black")
         t.penup()
-        t.goto(0, -50)   # start near the centre of the play area
+        t.goto(0, -50)   # start near the center of the play area
 
         # Bind arrow keys
         screen = hud.screen
@@ -93,7 +112,7 @@ class PlayerTurt():
         screen.onkeypress(self.move_left,  "Left")
         screen.onkeypress(self.move_right, "Right")
 
-    # ── movement ──────────────────────────────────────────────────────────
+    # movement
     def move_up(self):
         y = self.turtle.ycor()
         if y < 100:
@@ -114,7 +133,7 @@ class PlayerTurt():
         if x < 275:
             self.turtle.setx(x + self.STEP)
 
-    # ── collision detection ───────────────────────────────────────────────
+    # collision detection
     def check_collisions(self, enemies: list):
         """
         Call once per game loop frame.  For every still-alive enemy
@@ -174,7 +193,7 @@ def main():
     tr.tracer(2)
     hud = GameTurt()
 
-    colors = ["blue", "purple", "red", "orange", "yellow", "green", "black"]
+    colors = ["blue", "purple", "red", "orange", "yellow", "brown", "cyan"]
     enemies = [EnemyTurt(c) for c in colors]
 
     player = PlayerTurt(hud)

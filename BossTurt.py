@@ -1,6 +1,5 @@
 import pygame
 import random
-import time
 
 class BossTurt():
     def __init__(self, image_path, health, screen_width):
@@ -18,9 +17,9 @@ class BossTurt():
         self.going_down = True
         self.projectiles = []
         self.wave_counter = 0
-        self.wave = 0
+        self.wave = 1
         self.shoot_timer = 0
-        self.shot_interval = 40  # frames until next shot
+        self.shot_interval = 60
 
     def move(self):
         if self.going_right:
@@ -32,7 +31,6 @@ class BossTurt():
             self.going_right = False
         if self.rect.x < 0:
             self.going_right = True
-            self.wave_counter += 1
 
         if self.going_down:
             self.rect.y += 0.6
@@ -44,43 +42,40 @@ class BossTurt():
         if self.rect.y < 40:
             self.going_down = True
 
-
-    def reset_firing(self, shot_interval):
-        self.wave_counter = 0
-        self.shoot_timer = 0
-        proj = Projectile(
-            self.rect.centerx,
-            self.rect.bottom,
-            speed=7
-        )
-        self.projectiles.append(proj)  # store it so it persists
-        self.shoot_timer = 0
-        self.shot_interval = shot_interval  # randomize next interval
-
-
     def fire(self):
-        if self.wave_counter >= 1:
-            self.wave += 1
-            self.reset_firing(10)
-
         self.shoot_timer += 1
         if self.shoot_timer >= self.shot_interval:
-            # Spawn projectile at the boss's current center
-            proj = Projectile(
-                self.rect.centerx,
-                self.rect.bottom,
-                speed=7
-            )
-            self.projectiles.append(proj)       # store it so it persists
+            proj = Projectile(self.rect.centerx, self.rect.bottom, speed=7)
+            self.projectiles.append(proj)
+            self.wave_counter += 1
             self.shoot_timer = 0
-            self.shot_interval = 45  # randomize next interval
+
+            # Update wave based on shot count
+            if self.wave_counter >= 25:
+                self.wave = 3
+                self.shot_interval = 30
+            elif self.wave_counter >= 10:
+                self.wave = 2
+                self.shot_interval = 45
+            else:
+                self.wave = 1
+                self.shot_interval = 60
 
     def update_projectiles(self, screen, screen_height):
-        for proj in self.projectiles[:]:        # copy so we can remove safely mid-loop
+        for proj in self.projectiles[:]:
             proj.movement()
             proj.draw(screen)
-            if proj.y > screen_height:          # remove once off screen
+            if proj.y > screen_height:
                 self.projectiles.remove(proj)
+
+
+class WaveText():
+    def __init__(self):
+        self.font = pygame.font.SysFont("Arial", 36)
+
+    def draw(self, screen, wave):
+        text_surface = self.font.render(f"Wave {wave}", True, (0, 255, 0))
+        screen.blit(text_surface, (10, 10))
 
 
 class Projectile():
@@ -104,6 +99,7 @@ def main():
     clock = pygame.time.Clock()
 
     boss = BossTurt("image/turtle.png", 90, 800)
+    wave_display = WaveText()          # created once, reused every frame
 
     running = True
     while running:
@@ -112,13 +108,12 @@ def main():
                 running = False
 
         boss.move()
-        boss.fire()                                         # increments timer, fires when ready
-
-
+        boss.fire()
 
         screen.fill((50, 50, 50))
         screen.blit(boss.pic, boss.rect)
-        boss.update_projectiles(screen, 600)               # moves, draws, and cleans up projectiles
+        boss.update_projectiles(screen, 600)
+        wave_display.draw(screen, boss.wave)   # draws current wave number every frame
         pygame.display.flip()
         clock.tick(60)
 

@@ -20,6 +20,9 @@ class BossTurt():
         self.wave = 1
         self.shoot_timer = 0
         self.shot_interval = 60
+        self.paused = False
+        self.pause_timer = 0
+        self.pause_duration = 180  # frames (180 = 3 seconds at 60fps)
 
     def move(self):
         if self.going_right:
@@ -43,6 +46,8 @@ class BossTurt():
             self.going_down = True
 
     def fire(self):
+        if self.paused:
+            return
         self.shoot_timer += 1
         if self.shoot_timer >= self.shot_interval:
             proj = Projectile(self.rect.centerx, self.rect.bottom, speed=7)
@@ -68,14 +73,29 @@ class BossTurt():
             if proj.y > screen_height:
                 self.projectiles.remove(proj)
 
+    def update_pause(self):
+        if self.paused:
+            self.pause_timer += 1
+            if self.pause_timer >= self.pause_duration:
+                self.paused = False
+                self.pause_timer = 0
+
 
 class WaveText():
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 36)
+        self.big_font = pygame.font.SysFont("Arial", 72)    # larger font for the center announcement
 
     def draw(self, screen, wave):
+        # Small wave number in corner, always visible
         text_surface = self.font.render(f"Wave {wave}", True, (0, 255, 0))
         screen.blit(text_surface, (10, 10))
+
+    def draw_announcement(self, screen, wave):
+        # Big text in center of screen during pause
+        text_surface = self.big_font.render(f"Wave {wave}", True, (0, 255, 0))
+        text_rect = text_surface.get_rect(center=(400, 300))    # centered on 800x600 screen
+        screen.blit(text_surface, text_rect)
 
 
 class Projectile():

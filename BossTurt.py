@@ -59,12 +59,17 @@ class BossTurt():
             if self.wave_counter >= 25:
                 self.wave = 3
                 self.shot_interval = 30
+                if self.wave_counter == 25:
+                    self.paused = True
             elif self.wave_counter >= 10:
                 self.wave = 2
                 self.shot_interval = 45
+                if self.wave_counter == 10:
+                    self.paused = True
             else:
                 self.wave = 1
                 self.shot_interval = 60
+
 
     def update_projectiles(self, screen, screen_height):
         for proj in self.projectiles[:]:
@@ -127,13 +132,21 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        boss.move()
-        boss.fire()
+        boss.update_pause()  # handles pause countdown
+
+        if not boss.paused:
+            boss.move()  # freeze movement during pause
+
+        boss.fire()  # already returns early if paused
 
         screen.fill((50, 50, 50))
         screen.blit(boss.pic, boss.rect)
         boss.update_projectiles(screen, 600)
-        wave_display.draw(screen, boss.wave)   # draws current wave number every frame
+        wave_display.draw(screen, boss.wave)
+
+        if boss.paused:
+            wave_display.draw_announcement(screen, boss.wave)  # big centered text during pause
+
         pygame.display.flip()
         clock.tick(60)
 

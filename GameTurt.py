@@ -11,6 +11,8 @@ class GameTurt():
         self._score_turtle = None
         self._level_turtle = None
         self._time_turtle = None
+        self.won = False
+        self.lost = False
         self.setup_hud()
 
 
@@ -65,25 +67,47 @@ class GameTurt():
         if self.mini == self.maxi:
             self.win_game()
 
-
     def game_over(self):
-        tr.clearscreen()
-        gmov = tr.Turtle()
-        gmov.hideturtle()
-        gmov.penup()
-        gmov.goto(0, 0)
-        gmov.write("GAME OVER", align='center', font=('Arial', 40, 'bold'))
-        time.sleep(3)
-        self.screen.bye()
+        self.lost = True
+
     def win_game(self):
+        self.won = True
+
+    def show_game_over_screen(self):
+        """Shows GAME OVER. Returns 'retry' if R pressed, 'quit' if Q pressed."""
         tr.clearscreen()
-        wgm = tr.Turtle()
-        wgm.hideturtle()
-        wgm.penup()
-        wgm.goto(0,0)
-        wgm.write("YOU WINN!!!", align= 'center', font=('Arial', 40, 'bold'))
-        time.sleep(3)
-        self.screen.bye()
+        self.screen.bgcolor("black")
+
+        msg = tr.Turtle()
+        msg.hideturtle()
+        msg.penup()
+        msg.color("red")
+        msg.goto(0, 50)
+        msg.write("GAME OVER", align='center', font=('Arial', 50, 'bold'))
+        msg.color("white")
+        msg.goto(0, -30)
+        msg.write("Press R to retry  |  Q to quit", align='center', font=('Arial', 20, 'normal'))
+
+        choice = {"value": None}
+
+        def on_retry():
+            choice["value"] = "retry"
+
+        def on_quit():
+            choice["value"] = "quit"
+
+        self.screen.onkeypress(on_retry, "r")
+        self.screen.onkeypress(on_quit, "q")
+        self.screen.listen()
+
+        while choice["value"] is None:
+            self.screen.update()
+            time.sleep(0.05)
+
+        # wipe game over screen before returning so the retry starts clean
+        tr.clearscreen()
+        self.screen.bgcolor("white")  # reset from black so bgpic shows correctly
+        return choice["value"]
 
 class PlayerTurt():
     """
@@ -189,21 +213,31 @@ class EnemyTurt():
             self.turtle.sety(-200)
 
 
-def main():
-    tr.tracer(2)
-    hud = GameTurt()
-
-    colors = ["blue", "purple", "red", "orange", "yellow", "brown", "cyan"]
-    enemies = [EnemyTurt(c) for c in colors]
-
-    player = PlayerTurt(hud)
-
+def run_level_one():
     while True:
-        for e in enemies:
-            e.move(enemies)
-        player.check_collisions(enemies)
-        tr.update()
-        time.sleep(0.054)
+        tr.tracer(2)
+        hud = GameTurt()
+        colors = ["blue", "purple", "red", "orange", "yellow", "brown", "cyan"]
+        enemies = [EnemyTurt(c) for c in colors]
+        player = PlayerTurt(hud)
+
+        while not hud.won and not hud.lost:
+            for e in enemies:
+                e.move(enemies)
+            player.check_collisions(enemies)
+            tr.update()
+            time.sleep(0.054)
+
+        if hud.won:
+            tr.bye()
+            return "won"
+
+        choice = hud.show_game_over_screen()
+        if choice == "quit":
+            tr.bye()
+            return "quit"
+        # if "retry", outer while True restarts everything
 
 
-main()
+if __name__ == "__main__":
+    run_level_one()

@@ -23,12 +23,13 @@ class BossTurt():
         self.paused = False
         self.pause_timer = 0
         self.pause_duration = 180  # frames (180 = 3 seconds at 60fps)
+        self.speed = 3
 
     def move(self):
         if self.going_right:
-            self.rect.x += 2
+            self.rect.x += self.speed
         else:
-            self.rect.x -= 2
+            self.rect.x -= self.speed
 
         if self.rect.x > self.screen_width - self.rect.width:
             self.going_right = False
@@ -50,25 +51,28 @@ class BossTurt():
             return
         self.shoot_timer += 1
         if self.shoot_timer >= self.shot_interval:
-            proj = Projectile(self.rect.centerx, self.rect.bottom, speed=7)
+            proj = Projectile(self.rect.centerx, self.rect.bottom, speed=8)
             self.projectiles.append(proj)
             self.wave_counter += 1
             self.shoot_timer = 0
 
             # Update wave based on shot count
-            if self.wave_counter >= 25:
+            if self.wave_counter >= 35:
                 self.wave = 3
-                self.shot_interval = 30
-                if self.wave_counter == 25:
+                self.shot_interval = 26
+                self.speed = 6
+                if self.wave_counter == 35:
                     self.paused = True
             elif self.wave_counter >= 10:
                 self.wave = 2
-                self.shot_interval = 45
+                self.shot_interval = 40
+                self.speed = 4
                 if self.wave_counter == 10:
                     self.paused = True
             else:
                 self.wave = 1
-                self.shot_interval = 60
+                self.shot_interval = 50
+                self.speed = 3
 
     def take_damage(self):
         self.health -= 30
@@ -83,7 +87,7 @@ class BossTurt():
                 self.projectiles.remove(proj)
 
             # Check if projectile rect collides with player rect
-            proj_rect = pygame.Rect(proj.x, proj.y, 50, 50)  # matches your 50x50 projectile size
+            proj_rect = pygame.Rect(proj.x + 10, proj.y + 10, 30, 30)  # matches your 50x50 projectile size
             if proj_rect.colliderect(player.rect):
                 player.alive = False
                 self.projectiles.remove(proj)
@@ -106,23 +110,23 @@ class WaveText():
 
     def draw(self, screen, wave):
         # Small wave number in corner, always visible
-        text_surface = self.font.render(f"Wave {wave}", True, (0, 255, 0))
+        text_surface = self.font.render(f"Wave {wave}", True, (255, 255, 255))
         screen.blit(text_surface, (10, 10))
 
     def draw_announcement(self, screen, wave):
         # Big text in center of screen during pause
-        text_surface = self.big_font.render(f"Wave {wave}, Boss health down 30", True, (0, 255, 0))
+        text_surface = self.big_font.render(f"Wave {wave}, Boss health down 30", True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(400, 300))    # centered on 800x600 screen
         screen.blit(text_surface, text_rect)
 
     def draw_health(self, screen, health):
-        text_surface = self.health_font.render(f"Boss Health:{health}/90", True, (0, 255, 0))
+        text_surface = self.health_font.render(f"Boss Health:{health}/90", True, (255,255,255))
         text_rect = text_surface.get_rect()
         text_rect.topright = (800, 10)
         screen.blit(text_surface, text_rect)
 
     def draw_win(self, screen):
-        text_surface = self.win_font.render("YOU WINN!!!!", True, (0, 255, 0))
+        text_surface = self.win_font.render("YOU WINN!!!!", True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(400, 250))
         screen.blit(text_surface, text_rect)
 
@@ -143,7 +147,7 @@ class WaveText():
         screen.blit(text_surface, text_rect)
 
     def draw_retry_button(self, screen):
-        button_rect = pygame.Rect(325, 400, 150, 60)
+        button_rect = pygame.Rect(325, 480, 150, 60)
         pygame.draw.rect(screen, (0, 200, 0), button_rect)
         button_font = pygame.font.SysFont("Arial", 32)
         text_surface = button_font.render("TRY AGAIN", True, (255, 255, 255))
@@ -194,15 +198,17 @@ class Player():
             self.rect.x = 0
         if self.rect.x > self.screen_width - self.rect.width:
             self.rect.x = self.screen_width - self.rect.width
-        if self.rect.y < 0:
-            self.rect.y = 0
+        if self.rect.y < 110:
+            self.rect.y = 110
         if self.rect.y > self.screen_height - self.rect.height:
             self.rect.y = self.screen_height - self.rect.height
 
 
-def main():
+def run_boss_fight():
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
+    bg_image = pygame.image.load("image/proj_bg.gif")
+    bg_image = pygame.transform.scale(bg_image, (800, 600))
     clock = pygame.time.Clock()
 
     boss = BossTurt("image/turtle.png", 90, 800)
@@ -228,7 +234,7 @@ def main():
 
         boss.fire()
 
-        screen.fill((50, 50, 50))
+        screen.blit(bg_image, (0, 0))
         screen.blit(boss.pic, boss.rect)
         boss.update_projectiles(screen, 600, player)
         wave_display.draw(screen, boss.wave)
@@ -260,14 +266,14 @@ def main():
             wave_display.draw_win(screen)
             retry_rect = wave_display.draw_retry_button(screen)
 
-        player.move()
-        screen.blit(player.pic, player.rect)
+        if player.alive and boss.alive:
+            player.move()
+            screen.blit(player.pic, player.rect)
 
         pygame.display.flip()
         clock.tick(60)
 
     pygame.quit()
 
-main()
-
-main()
+if __name__ == "__main__":
+    run_boss_fight()

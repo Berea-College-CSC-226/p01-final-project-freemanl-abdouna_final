@@ -1,5 +1,5 @@
 import pygame
-import random
+import time
 
 class BossTurt():
     def __init__(self, image_path, health, screen_width):
@@ -70,12 +70,22 @@ class BossTurt():
                 self.wave = 1
                 self.shot_interval = 60
 
+    def take_damage(self):
+        self.health -= 30
+        if self.health <= 0:
+            self.alive = False
 
-    def update_projectiles(self, screen, screen_height):
+    def update_projectiles(self, screen, screen_height, player):
         for proj in self.projectiles[:]:
             proj.movement()
             proj.draw(screen)
             if proj.y > screen_height:
+                self.projectiles.remove(proj)
+
+            # Check if projectile rect collides with player rect
+            proj_rect = pygame.Rect(proj.x, proj.y, 50, 50)  # matches your 50x50 projectile size
+            if proj_rect.colliderect(player.rect):
+                player.alive = False
                 self.projectiles.remove(proj)
 
     def update_pause(self):
@@ -90,6 +100,9 @@ class WaveText():
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 36)
         self.big_font = pygame.font.SysFont("Arial", 72)    # larger font for the center announcement
+        self.health_font = pygame.font.SysFont("Arial", 36)
+        self.win_font = pygame.font.SysFont("Arial", 84)
+
 
     def draw(self, screen, wave):
         # Small wave number in corner, always visible
@@ -98,9 +111,45 @@ class WaveText():
 
     def draw_announcement(self, screen, wave):
         # Big text in center of screen during pause
-        text_surface = self.big_font.render(f"Wave {wave}", True, (0, 255, 0))
+        text_surface = self.big_font.render(f"Wave {wave}, Boss health down 30", True, (0, 255, 0))
         text_rect = text_surface.get_rect(center=(400, 300))    # centered on 800x600 screen
         screen.blit(text_surface, text_rect)
+
+    def draw_health(self, screen, health):
+        text_surface = self.health_font.render(f"Boss Health:{health}/90", True, (0, 255, 0))
+        text_rect = text_surface.get_rect()
+        text_rect.topright = (800, 10)
+        screen.blit(text_surface, text_rect)
+
+    def draw_win(self, screen):
+        text_surface = self.win_font.render("YOU WINN!!!!", True, (0, 255, 0))
+        text_rect = text_surface.get_rect(center=(400, 250))
+        screen.blit(text_surface, text_rect)
+
+        story_font = pygame.font.SysFont("Arial", 24)
+        story_lines = [
+            "The ancient turtle king has fallen.",
+            "Peace returns to the land at last.",
+            "The hunter walks home, a legend.",
+        ]
+        for i, line in enumerate(story_lines):
+            story_surface = story_font.render(line, True, (255, 255, 255))
+            story_rect = story_surface.get_rect(center=(400, 350 + i * 30))
+            screen.blit(story_surface, story_rect)
+
+    def draw_lose(self, screen):
+        text_surface = self.win_font.render("YOU LOSE!", True, (255, 0, 0))
+        text_rect = text_surface.get_rect(center=(400, 300))
+        screen.blit(text_surface, text_rect)
+
+    def draw_retry_button(self, screen):
+        button_rect = pygame.Rect(325, 400, 150, 60)
+        pygame.draw.rect(screen, (0, 200, 0), button_rect)
+        button_font = pygame.font.SysFont("Arial", 32)
+        text_surface = button_font.render("TRY AGAIN", True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=button_rect.center)
+        screen.blit(text_surface, text_rect)
+        return button_rect
 
 
 class Projectile():
@@ -116,6 +165,7 @@ class Projectile():
 
     def draw(self, screen):
         screen.blit(self.pic, (self.x, self.y))
+
 
 class Player():
     def __init__(self, image_path, screen_width, screen_height):
@@ -150,36 +200,66 @@ class Player():
             self.rect.y = self.screen_height - self.rect.height
 
 
-
 def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
     boss = BossTurt("image/turtle.png", 90, 800)
-    player = Player("image/hunter.png",800, 600)
-    wave_display = WaveText()          # created once, reused every frame
+    player = Player("image/hunter.png", 800, 600)
+    wave_display = WaveText()
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # retry button click — only matters if game is over
+                if not player.alive or not boss.alive:
+                    if retry_rect.collidepoint(event.pos):
+                        boss = BossTurt("image/turtle.png", 90, 800)
+                        player = Player("image/hunter.png", 800, 600)
 
-        boss.update_pause()  # handles pause countdown
+        boss.update_pause()
 
         if not boss.paused:
-            boss.move()  # freeze movement during pause
+            boss.move()
 
-        boss.fire()  # already returns early if paused
+        boss.fire()
 
         screen.fill((50, 50, 50))
         screen.blit(boss.pic, boss.rect)
-        boss.update_projectiles(screen, 600)
+        boss.update_projectiles(screen, 600, player)
         wave_display.draw(screen, boss.wave)
 
         if boss.paused:
-            wave_display.draw_announcement(screen, boss.wave)  # big centered text during pause
+            wave_display.draw_announcement(screen, boss.wave)
+
+        wave_display.draw_health(screen, boss.health)
+
+        # Player attacks boss during cooldown
+        if boss.paused and player.rect.colliderect(boss.rect):
+            boss.take_damage()
+            player.rect.x = 350
+            player.rect.y = 480
+            boss.paused = False
+            boss.pause_timer = 0
+
+        retry_rect = None    # default — no button this frame
+
+        if not player.alive:
+            screen.fill((50, 50, 50))
+            wave_display.draw_lose(screen)
+            retry_rect = wave_display.draw_retry_button(screen)
+            boss.paused = True
+            boss.projectiles = []
+
+        if not boss.alive:
+            screen.fill((50, 50, 50))
+            wave_display.draw_win(screen)
+            retry_rect = wave_display.draw_retry_button(screen)
+
         player.move()
         screen.blit(player.pic, player.rect)
 
@@ -187,5 +267,7 @@ def main():
         clock.tick(60)
 
     pygame.quit()
+
+main()
 
 main()

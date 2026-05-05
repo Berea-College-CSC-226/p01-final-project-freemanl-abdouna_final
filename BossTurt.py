@@ -117,6 +117,39 @@ class Projectile():
     def draw(self, screen):
         screen.blit(self.pic, (self.x, self.y))
 
+class Player():
+    def __init__(self, image_path, screen_width, screen_height):
+        self.pic = pygame.image.load(image_path)
+        self.pic = pygame.transform.scale(self.pic, (100, 100))
+        self.pic.set_colorkey((0, 0, 0))
+        self.alive = True
+        self.rect = self.pic.get_rect()
+        self.rect.x = 350
+        self.rect.y = 480
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+
+    def move(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.rect.x -= 5
+        if keys[pygame.K_RIGHT]:
+            self.rect.x += 5
+        if keys[pygame.K_UP]:
+            self.rect.y -= 5
+        if keys[pygame.K_DOWN]:
+            self.rect.y += 5
+
+        if self.rect.x < 0:
+            self.rect.x = 0
+        if self.rect.x > self.screen_width - self.rect.width:
+            self.rect.x = self.screen_width - self.rect.width
+        if self.rect.y < 0:
+            self.rect.y = 0
+        if self.rect.y > self.screen_height - self.rect.height:
+            self.rect.y = self.screen_height - self.rect.height
+
+
 
 def main():
     pygame.init()
@@ -124,6 +157,7 @@ def main():
     clock = pygame.time.Clock()
 
     boss = BossTurt("image/turtle.png", 90, 800)
+    player = Player("image/hunter.png",800, 600)
     wave_display = WaveText()          # created once, reused every frame
 
     running = True
@@ -146,6 +180,8 @@ def main():
 
         if boss.paused:
             wave_display.draw_announcement(screen, boss.wave)  # big centered text during pause
+        player.move()
+        screen.blit(player.pic, player.rect)
 
         pygame.display.flip()
         clock.tick(60)

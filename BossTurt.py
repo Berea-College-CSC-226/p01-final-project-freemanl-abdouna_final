@@ -51,7 +51,7 @@ class BossTurt():
             return
         self.shoot_timer += 1
         if self.shoot_timer >= self.shot_interval:
-            proj = Projectile(self.rect.centerx, self.rect.bottom, speed=8)
+            proj = Projectile(self.rect.centerx, self.rect.bottom, speed=7)
             self.projectiles.append(proj)
             self.wave_counter += 1
             self.shoot_timer = 0
@@ -87,7 +87,7 @@ class BossTurt():
                 self.projectiles.remove(proj)
 
             # Check if projectile rect collides with player rect
-            proj_rect = pygame.Rect(proj.x + 10, proj.y + 10, 30, 30)  # matches your 50x50 projectile size
+            proj_rect = pygame.Rect(proj.x + 15, proj.y + 15, 20, 20)
             if proj_rect.colliderect(player.rect):
                 player.alive = False
                 self.projectiles.remove(proj)
@@ -103,18 +103,17 @@ class BossTurt():
 class WaveText():
     def __init__(self):
         self.font = pygame.font.SysFont("Arial", 36)
-        self.big_font = pygame.font.SysFont("Arial", 72)    # larger font for the center announcement
+        self.big_font = pygame.font.SysFont("Arial", 72)
         self.health_font = pygame.font.SysFont("Arial", 36)
         self.win_font = pygame.font.SysFont("Arial", 84)
 
 
     def draw(self, screen, wave):
-        # Small wave number in corner, always visible
         text_surface = self.font.render(f"Wave {wave}", True, (255, 255, 255))
         screen.blit(text_surface, (10, 10))
 
     def draw_announcement(self, screen, wave):
-        # Big text in center of screen during pause
+
         text_surface = self.big_font.render(f"Wave {wave}, Boss health down 30", True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(400, 300))    # centered on 800x600 screen
         screen.blit(text_surface, text_rect)

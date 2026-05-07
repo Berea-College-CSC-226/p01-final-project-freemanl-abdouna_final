@@ -112,11 +112,10 @@ class GameTurt():
 class PlayerTurt():
     """
     Arrow-key controlled turtle that scores a point each time it
-    touches an enemy turtle.  Once an enemy is caught it is hidden
-    and marked dead so it can't be scored again.
+    touches an enemy turtle.
     """
     STEP = 20          # pixels per key-press
-    COLLIDE_DIST = 25  # distance (px) that counts as a collision
+    COLLIDE_DIST = 25  # distance that counts as a collision
 
     def __init__(self, hud: GameTurt):
         self.hud = hud

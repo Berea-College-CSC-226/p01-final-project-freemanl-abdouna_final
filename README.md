@@ -2,9 +2,6 @@
 
 ## Instructions
 
-❗️Exclamation Marks ❗️indicate action items; you should remove these emoji as you complete/update the items which 
-  they accompany. (This means that your final README should have no ❗️in it!)
-
  **Author(s)**: Leroy Freeman III & Ahmed Abdoun
 
  ️**Google Doc Link**: https://docs.google.com/document/d/1Ykctd1756RvBV8IOA_Nv39KKJHm9qmYQ_IHoSGX-fT0/edit?usp=sharing
@@ -103,9 +100,9 @@ use to restart the living.
 ### Errors and Constraints
 
 
-### ❗Reflection
+### Reflection
 
-❗Each partner should write three to four well-written paragraphs address the following (at a minimum):
+Each partner should write three to four well-written paragraphs address the following (at a minimum):
 - Why did you select the project that you did?
 - How closely did your final project reflect your initial design?
 - What did you learn from this process?

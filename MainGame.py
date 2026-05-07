@@ -1,10 +1,19 @@
+######################################################################
+# Authors: Ahmed Abdoun, Leroy Freeman
+# Username: freemanl, abdouna
+#
+# P01: Final Project
+#
+# Purpose: creating a main game program that uses the functions at the end of the
+# boss turt and gameturt files, beating the gameturt will open the bossturt
+# ######################################################################
 import turtle as tr
 import time
 from GameTurt import run_level_one
 from BossTurt import run_boss_fight
 
 
-def show_title_and_exposition():
+def show_title():
     screen = tr.Screen()
     screen.setup(700, 600)
     screen.bgcolor("black")
@@ -39,7 +48,7 @@ def show_title_and_exposition():
 
 
 def main():
-    show_title_and_exposition()
+    show_title()
 
     result = run_level_one()
 

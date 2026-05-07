@@ -1,3 +1,12 @@
+######################################################################
+# Authors: Ahmed Abdoun, Leroy Freeman
+# Username: freemanl, abdouna
+#
+# P01: Final Project
+#
+# Purpose: creating a game where seven turtles run around and the player has to catch them before
+# the time runs out.
+# ######################################################################
 import turtle as tr
 import time
 import random
@@ -74,7 +83,7 @@ class GameTurt():
         self.won = True
 
     def show_game_over_screen(self):
-        """Shows GAME OVER. Returns 'retry' if R pressed, 'quit' if Q pressed."""
+        """Shows GAME OVER. Returns retry if R pressed and returns quit if Q pressed."""
         tr.clearscreen()
         self.screen.bgcolor("black")
 
@@ -111,11 +120,11 @@ class GameTurt():
 
 class PlayerTurt():
     """
-    Arrow-key controlled turtle that scores a point each time it
+    arrow key controlled turtle that scores a point each time it
     touches an enemy turtle.
     """
-    STEP = 20          # pixels per key-press
-    COLLIDE_DIST = 25  # distance that counts as a collision
+    step = 20          # pixels per key-press
+    collide_dist = 25  # distance that counts as a collision
 
     def __init__(self, hud: GameTurt):
         self.hud = hud
@@ -139,31 +148,30 @@ class PlayerTurt():
     def move_up(self):
         y = self.turtle.ycor()
         if y < 100:
-            self.turtle.sety(y + self.STEP)
+            self.turtle.sety(y + self.step)
 
     def move_down(self):
         y = self.turtle.ycor()
         if y > -200:
-            self.turtle.sety(y - self.STEP)
+            self.turtle.sety(y - self.step)
 
     def move_left(self):
         x = self.turtle.xcor()
         if x > -275:
-            self.turtle.setx(x - self.STEP)
+            self.turtle.setx(x - self.step)
 
     def move_right(self):
         x = self.turtle.xcor()
         if x < 275:
-            self.turtle.setx(x + self.STEP)
+            self.turtle.setx(x + self.step)
 
     # collision detection
     def check_collisions(self, enemies: list):
         """
-        Call once per game loop frame.  For every still-alive enemy
-        within COLLIDE_DIST, hide it, mark it dead, and add a point.
+        check collisions every frame and hide the turtle if its caught
         """
         for enemy in enemies:
-            if enemy.alive and self.turtle.distance(enemy.turtle) < self.COLLIDE_DIST:
+            if enemy.alive and self.turtle.distance(enemy.turtle) < self.collide_dist:
                 enemy.turtle.hideturtle()
                 enemy.alive = False
                 self.hud.mini += 1
@@ -235,7 +243,7 @@ def run_level_one():
         if choice == "quit":
             tr.bye()
             return "quit"
-        # if "retry", outer while True restarts everything
+
 
 
 if __name__ == "__main__":

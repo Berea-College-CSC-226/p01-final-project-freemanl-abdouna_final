@@ -70,35 +70,38 @@ What has surprised you so far? Describe your general feelings. Be honest with yo
 ```
 
 ---
-
 ## Milestone 3: Virtual Check-In
+ 
+ Indicate what percentage of the project you have left to complete and how confident you feel. 
 
-❗Indicate what percentage of the project you have left to complete and how confident you feel. 
+`
+️ **Completion Percentage**: `50%`
 
-❗️**Completion Percentage**: `0 - 100%`
-
-❗️**Confidence**: Describe how confident you feel about completing this project, and why. Then, describe some 
+ 
+ ️**Confidence**: Describe how confident you feel about completing this project, and why. Then, describe some 
   strategies you can employ to increase the likelihood that you'll be successful in completing this project 
   before the deadline.
 
 ```
-    **Replace this with your reflection
+    I feel confident that I can complete the project on time becuase I'm finishing a lot of my other classes so I feel
+    that my productivity in this class will speed up. A strategy that I can employ to increase the likelihood of me 
+    completing is implementing a schedeule of what I need done by the final deadline.
 ```
 
 ---
 
 ## Milestone 4: Final Code, Presentation, Demo
 
-### ❗User Instructions
+### User Instructions
 
-❗In a paragraph, explain how to use your program. Assume the user is starting just after they hit the "Run" button 
-in PyCharm. 
+After the user hits the run button in pycharm they will read the introduction and when they click anywhere on the screen
+they will begin the first level where they will use the arrow keys to catch the scrambling turtles. Once they have caught
+all the turtles the second level will instantly start where they have to use the arrow keys again to avoid the bubbles
+being shot at them from the king turtles. Both of these levels are equipped with a restart function that the player can
+use to restart the living. 
 
-### ❗Errors and Constraints
+### Errors and Constraints
 
-❗Every program has bugs or features that had to be scrapped for time. These bugs should be tracked in the issue queue. 
-You should already have a few items in here from the prior weeks. Create a new issue for any undocumented errors and 
-deficiencies that remain in your code. Bugs found that aren't acknowledged in the queue will be penalized.
 
 ### ❗Reflection
 
@@ -111,7 +114,27 @@ deficiencies that remain in your code. Bugs found that aren't acknowledged in th
 - How well did you work with your partner? What made it go well? What made it challenging?
 
 ```
-    Partner 1: **Replace this with your reflection
+    Partner 1:
+      I selected this type of project because I wanted to test my mastery of the turtle library as well as my
+    ability to think as a develper which is why I wanted to add the pygame aspect as well because it was a library I was
+    unfamiliar with. With pygame it was a relitively new library introduced at the end of class so I wanted to test my 
+    knowledge of how python worked with my ability to learn quickly to build this game with a library that I was unfamiliar 
+    with. The idea to add the turtle part came from the Seven Turtle Army assignment so I wanted to expand on that and
+    add to it a new concept. 
+      The initial design we picked was to incorporate 3 levels however this would prove to be too much for the amount of
+    time that we had to complete the project. The level we decided to take out also didn't match the flow of our game as
+    much as level 1 and level 2 so ultimately it was removed from the final program. Other than the removed level our 
+    final project reflects our desgin really well because it encapsulates all of our ideas. The process was not perfect 
+    but overall this project helped me to learn to compostion a lot better especially when changing instance attributes.
+      The hardest part of my project for me was working with pygame. This was a totatlly new concept for me and I went 
+    into it thinking that I knew more than I did and through manipulating what I wanted out of this project I realized 
+    that there was more to this library that I didn't know about that I needed. To avoid this next time in my design 
+    process I would defenitely do a lot more research as far as the features that I have to add and how I would add them
+    because there was a lot of things in the library that I didn't know that I would need for my project. 
+      Working with a partner wasn't new for me however, it was new for me working with one long term. It was difficult to
+    coordinate times where we could get together and work together on the project. But, we worked through this by 
+    communicating over calls and texts to solve our conflicting schedeules. Overall I'd say I worked great with my partner
+    and we shared an even work load to complete this project.
 ```
 
 ```
